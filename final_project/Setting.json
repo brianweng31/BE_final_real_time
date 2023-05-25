@@ -1,0 +1,50 @@
+[
+{
+"Gesture" : "UP",
+"Key1" : "Control",
+"Key2" : "",
+"Key3" : "C"
+},
+{
+"Gesture" : "DOWN",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+},
+{
+"Gesture" : "LEFT",
+"Key1" : "Control",
+"Key2" : "",
+"Key3" : "C"
+},
+{
+"Gesture" : "RIGHT",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+},
+{
+"Gesture" : "V",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+},
+{
+"Gesture" : "O",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+},
+{
+"Gesture" : "N",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+},
+{
+"Gesture" : "Z",
+"Key1" : "",
+"Key2" : "",
+"Key3" : ""
+}
+]
