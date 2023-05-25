@@ -24,7 +24,7 @@ def get_result(model,x,y,z):
 
     # processed_data = process_signal(signal)
 
-    length = [150,100,50]
+    length = [150]
     model_input = np.zeros((len(length),3,80))
     
     for i in range(len(length)):

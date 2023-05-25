@@ -12,10 +12,15 @@ from collections import Counter
 import time
 
 
-COM_PORT = '/dev/cu.usbserial-14140'
-BAUD_RATES = 38400
+
 FILE = 'Setting.json'
-MODEL_PATH = 'best_model_3axis.pth'
+MODEL_PATH = 'best_model_noise.pth'
+
+# COM_PORT = '/dev/cu.usbserial-14140'
+COM_PORT = '/dev/ttyUSB0'
+BAUD_RATES = 115200
+ser = serial.Serial(COM_PORT, BAUD_RATES)
+time.sleep(0.5)
 
 #######################
 
@@ -48,43 +53,46 @@ if __name__ == '__main__':
     model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
     model.eval()
 
-    #ser = serial.Serial(COM_PORT, BAUD_RATES)
+    
     try:
         while True:
-            # ser.flushInput()
-            # data = ser.readline().decode().split('/')
+            ser.flushInput()
+            data = ser.readline().decode().split('/')
 
-            # while len(data) != 6:
-            #     data = ser.readline().decode().split('/')
-
+            while len(data) != 3:
+                print(data)
+                data = ser.readline().decode().split('/')
             
-            # x.append(float(data[0]))
-            # y.append(float(data[1]))
-            # z.append(float(data[2]))
+            x.append(float(data[0]))
+            y.append(float(data[1]))
+            z.append(float(data[2]))
             # rx.append(float(data[3]))
             # ry.append(float(data[4]))
             # rz.append(float(data[5]))
             
 
             # result = 'UP', 'DOWN', 'LEFT', 'RIGHT', 'V', 'O', 'N', 'Z', None
-            start_time = time.time()
+            # start_time = time.time()
             length = [150]
             results = []
             for i in length:
                 x_cut,y_cut,z_cut = get_last_i(x,y,z,i)
                 results.append(get_result(model,x_cut,y_cut,z_cut))
-            print(f'model time = {time.time() - start_time}')
+            # print(f'model time = {time.time() - start_time}')
 
             # print(f'results = {results}')
             counter = Counter([element for element in results if element is not None])
             most_common = counter.most_common(1)
             result = most_common[0][0] if most_common else None
-            
+            # print(result)
 
             # shortcut
             if result != None:
                 print(result)
                 # shortcut(shortcut_dict, result)
+                x = deque([0] * 150, maxlen=150)
+                y = deque([0] * 150, maxlen=150)
+                z = deque([0] * 150, maxlen=150)
                 
 
     except KeyboardInterrupt:
