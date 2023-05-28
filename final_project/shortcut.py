@@ -29,6 +29,7 @@ def read_json(file):
     return shortcut_dict
 
 def shortcut(shortcut_dict, result):
+    print(shortcut_dict[result])
     if(shortcut_dict[result][2] != ''):
         pyautogui.hotkey(shortcut_dict[result][0],shortcut_dict[result][1], shortcut_dict[result][2])
 

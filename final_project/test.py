@@ -7,6 +7,8 @@ from collections import Counter
 
 import time
 
+POWER_THRESHOLD = 0
+
 def get_result(model,x,y,z):
     device = (
         "cuda"
@@ -26,7 +28,10 @@ def get_result(model,x,y,z):
 
     length = [150]
     model_input = np.zeros((len(length),3,80))
+    power = np.zeros((len(length),3))
+    max_i = np.zeros((len(length),3))
     
+    start_time = time.time()
     for i in range(len(length)):
         # print(i)
         
@@ -40,9 +45,19 @@ def get_result(model,x,y,z):
         # signal['rz'] = rz_cut
 
         
-        processed_data = process_signal(signal)
+        processed_data, power[i], max_i[i] = process_signal(signal)
         model_input[i] = processed_data
-        
+    
+        # print(f'max_i = {max_i.reshape((1,3))}')
+        # print(f'(max_i == 69).all() =  {(max_i == 69).all()}')
+        if (max_i[i] == 149-length[i]).any() == True:
+            print(f'(max_i[i] == 149-length[i]).any() == True')
+        #     return None
+    print(f'process time = {time.time()-start_time}')
+    # test if >= POWER_THRESHOLD
+    # print(f'power = {power}')
+    # if power.all() < POWER_THRESHOLD:
+    #     return None
 
     # signal = torch.tensor(signal, dtype=torch.float32)
     # signal = torch.unsqueeze(torch.unsqueeze(signal,0),0)
@@ -52,8 +67,10 @@ def get_result(model,x,y,z):
     model_input = torch.tensor(model_input, dtype=torch.float32)
     model_input = torch.unsqueeze(model_input,1)
     # print(f'model_input.dtype = {model_input.dtype}')
-      
+    
+    start_time = time.time()
     pred = model(model_input.to(device))
+    print(f'model_time = {time.time()-start_time}')
 
     # print(f'pred.shape = {pred.shape}')
     # print(f'pred = {pred}')
@@ -75,5 +92,8 @@ def get_result(model,x,y,z):
                    "GestureO": "O", "GestureRight": "RIGHT", "GestureUp": "UP", 
                    "GestureV": "V", "GestureZ": "Z", "Noise": None
                    }
+    
+    if label2result[digit2label[result]] != None:
+        print(f'max_i = {max_i}')
     
     return label2result[digit2label[result]]

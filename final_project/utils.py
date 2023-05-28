@@ -24,15 +24,15 @@ def normalize(signal):
     return signal - np.mean(signal)
 
 def find_max_segment_power(signal, length):
-    max_i = 0
+    max_i = signal.shape[0]-length
     max_pow = -1
-    for i in range(signal.shape[0] - length):
+    for i in reversed(range(signal.shape[0] - length)):
         if np.square(signal[i:i+length]).sum() > max_pow:
             max_i = i
             max_pow = np.square(signal[i:i+length]).sum()
             # print(max_i, max_pow)
         # print(i, i+length, np.square(signal[i:i+length]).sum(),  max_pow)
-    return signal[max_i:max_i+length]
+    return signal[max_i:max_i+length], max_pow, max_i
 
 def resample_array(array, new_length):
     old_length = len(array)
@@ -53,6 +53,8 @@ def process_signal(signal):
     length = 80
 
     process_data = np.zeros((data.shape[0], length))
+    power = np.zeros(data.shape[0])
+    max_i = np.zeros(data.shape[0])
     # print(f'setup_array time = {time.time() - start_time}')
     # normalize_time = 0
     # find_max_time = 0
@@ -63,18 +65,19 @@ def process_signal(signal):
         # normalize_time += time.time() - start_time2
         if data.shape[1] > 80:
             # start_time3 = time.time()
-            process_data[i] = find_max_segment_power(data[i], length)
+            process_data[i], power[i], max_i[i] = find_max_segment_power(data[i], length)
             # find_max_time += time.time() - start_time3
             # print(s.shape)
             # print(process_data.shape)
         else: # data.shape[1] <= 80:
             process_data[i] = resample_array(data[i], length)
+            power[i] = np.square(process_data[i]).sum()
     
     # print(f'normalize_time = {normalize_time}')
     # print(f'find_max_time = {find_max_time}')
     # print(f'process_signal time = {time.time() - start_time}')
     # print('\n')
-    return process_data
+    return process_data, power, max_i
     #return normalize(data)
 
 def preprocess_data(file_path):
