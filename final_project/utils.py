@@ -11,16 +11,10 @@ def get_last_i(x,y,z,i):
     x_cut = list(deque(x, maxlen=i)) if i < 150 else list(x)
     y_cut = list(deque(y, maxlen=i)) if i < 150 else list(y)
     z_cut = list(deque(z, maxlen=i)) if i < 150 else list(z)
-    # rx_cut = list(deque(rx, maxlen=i)) if i < 150 else list(rx)
-    # ry_cut = list(deque(ry, maxlen=i)) if i < 150 else list(ry)
-    # rz_cut = list(deque(rz, maxlen=i)) if i < 150 else list(rz)
 
     return x_cut,y_cut,z_cut
 
 def normalize(signal):
-    # for s in signal:
-    #     # s = (s-np.mean(s))/np.sqrt(np.var(s))
-    #     s = (s-np.mean(s))
     return signal - np.mean(signal)
 
 def find_max_segment_power(signal, length):
@@ -30,8 +24,6 @@ def find_max_segment_power(signal, length):
         if np.square(signal[i:i+length]).sum() > max_pow:
             max_i = i
             max_pow = np.square(signal[i:i+length]).sum()
-            # print(max_i, max_pow)
-        # print(i, i+length, np.square(signal[i:i+length]).sum(),  max_pow)
     return signal[max_i:max_i+length], max_pow, max_i
 
 def resample_array(array, new_length):
@@ -43,7 +35,6 @@ def resample_array(array, new_length):
     return resampled_array
 
 def process_signal(signal):
-    # start_time = time.time()
     data = np.array([
         signal['x'],
         signal['y'], 
@@ -55,30 +46,16 @@ def process_signal(signal):
     process_data = np.zeros((data.shape[0], length))
     power = np.zeros(data.shape[0])
     max_i = np.zeros(data.shape[0])
-    # print(f'setup_array time = {time.time() - start_time}')
-    # normalize_time = 0
-    # find_max_time = 0
 
     for i in range(len(data)):
-        # start_time2 = time.time()
         data[i] = normalize(data[i])
-        # normalize_time += time.time() - start_time2
         if data.shape[1] > 80:
-            # start_time3 = time.time()
             process_data[i], power[i], max_i[i] = find_max_segment_power(data[i], length)
-            # find_max_time += time.time() - start_time3
-            # print(s.shape)
-            # print(process_data.shape)
         else: # data.shape[1] <= 80:
             process_data[i] = resample_array(data[i], length)
             power[i] = np.square(process_data[i]).sum()
     
-    # print(f'normalize_time = {normalize_time}')
-    # print(f'find_max_time = {find_max_time}')
-    # print(f'process_signal time = {time.time() - start_time}')
-    # print('\n')
     return process_data, power, max_i
-    #return normalize(data)
 
 def preprocess_data(file_path):
     X = []
@@ -95,15 +72,8 @@ def preprocess_data(file_path):
                     if file.split('.')[1] == 'npz' and file.split('.')[0].split('_')[0]!='hung':
                         signal = np.load(f"{file_path}/{folder}/{file}")
                         is_good_data = True
-                        # for rx_data in signal['rx']:
-                        #     if rx_data > 1000 or rx_data < -1000:
-                        #         print(f"{file_path}/{folder}/{file}")
-                        #         num_of_bad_data += 1
-                        #         is_good_data = False
-                        #         break
                         if is_good_data:
                             signal = process_signal(signal)
-                            # print(signal.shape)
                             if not np.isnan(signal).any() :
                                 X.append(np.expand_dims(signal, 0).tolist())
                                 y.append(label2digit[folder])
@@ -111,6 +81,4 @@ def preprocess_data(file_path):
                                 num_of_bad_data += 1
                                 print(f"{file_path}/{folder}/{file}")
     print(f'Total {num_of_bad_data} bad data!')
-    # print(X)
-    # return X, y
     return torch.tensor(X), torch.tensor(y)

@@ -107,7 +107,5 @@ def model():
 
 
     model = CNN_3axis(9, 96).to(device)
-    print(model)
-
-    # loss_fn = nn.CrossEntropyLoss()
+    
     return model

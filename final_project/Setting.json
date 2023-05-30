@@ -3,48 +3,48 @@
 "Gesture" : "UP",
 "Key1" : "",
 "Key2" : "",
-"Key3" : "A"
+"Key3" : "U"
 },
 {
 "Gesture" : "DOWN",
 "Key1" : "",
 "Key2" : "",
-"Key3" : ""
+"Key3" : "D"
 },
 {
 "Gesture" : "LEFT",
-"Key1" : "Control",
+"Key1" : "",
 "Key2" : "",
-"Key3" : "C"
+"Key3" : "L"
 },
 {
 "Gesture" : "RIGHT",
 "Key1" : "",
 "Key2" : "",
-"Key3" : ""
-},
-{
-"Gesture" : "V",
-"Key1" : "",
-"Key2" : "",
-"Key3" : ""
+"Key3" : "R"
 },
 {
 "Gesture" : "O",
 "Key1" : "",
 "Key2" : "",
-"Key3" : ""
+"Key3" : "O"
+},
+{
+"Gesture" : "V",
+"Key1" : "",
+"Key2" : "",
+"Key3" : "V"
 },
 {
 "Gesture" : "N",
 "Key1" : "",
 "Key2" : "",
-"Key3" : ""
+"Key3" : "N"
 },
 {
 "Gesture" : "Z",
 "Key1" : "",
 "Key2" : "",
-"Key3" : ""
+"Key3" : "Z"
 }
 ]
