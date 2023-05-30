@@ -23,19 +23,9 @@ class CNN_3axis(nn.Module):
         self.hid_channel = hid_channel
         self.cnn = nn.Conv2d(1, self.hid_channel, (1, 16))
         self.relu = nn.ReLU()
-        # self.maxpool = nn.MaxPool2d((1, 4), stride=(1, 4))
-        # self.maxpool = nn.MaxPool2d((1, 4))
-        # self.fc = nn.Linear(self.hid_channel*3*18, 512)
-        # self.dropout = nn.Dropout(0.5)        
-        # self.fc = nn.Linear(self.hid_channel*3*18, 512)
-        # self.dropout = nn.Dropout(0.5)
-        # self.proj_class = nn.Linear(512, self.num_class)
-        # self.cnn2 = nn.Conv2d(self.hid_channel, 2* self.hid_channel, (3, 3))
         self.proj = nn.Sequential(
             nn.Linear(self.hid_channel*3*65, 1024), 
             nn.ReLU(),
-            # nn.Linear(2048, 1024),
-            # nn.ReLU(),
             nn.Linear(1024, 256),
             nn.ReLU(),
             nn.Linear(256, self.num_class)
@@ -44,8 +34,6 @@ class CNN_3axis(nn.Module):
     def forward(self, x):
         x = self.cnn(x)
         x = self.relu(x)
-        # x = self.cnn2(x)
-        # x = self.relu(x)
 
         x = x.view(x.size()[0], -1)
         x = self.proj(x)

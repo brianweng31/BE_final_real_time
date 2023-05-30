@@ -1,11 +1,8 @@
 import numpy as np
 import os
 import torch
-# from scipy import interpolate
 from scipy.interpolate import CubicSpline
 from collections import deque
-
-import time
 
 def get_last_i(x,y,z,i):
     x_cut = list(deque(x, maxlen=i)) if i < 150 else list(x)

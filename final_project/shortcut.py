@@ -10,19 +10,7 @@ def read_json(file):
         keys = []
         for i in item:
             if i != 'Gesture':
-                if i != 'Key3':
-                    if item[i] == 'Control':
-                        keys.append('ctrl')
-                    elif item[i] == 'Shift':
-                        keys.append('shift')
-                    elif item[i] == 'Option':
-                        keys.append('option')
-                    elif item[i] == ' Command':
-                        keys.append('command')
-                    else:
-                        keys.append('')
-                else: # i == 'Key3':
-                    keys.append(item[i].lower())
+                keys.append(item[i].lower())
 
         shortcut_dict[item['Gesture']] = keys
 

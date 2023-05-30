@@ -1,0 +1,22 @@
+Final version:
+best_model_gauss_noise.pth
+	training data contains incomplete gesture,
+	padding with gaussian noise
+
+
+Earlier version:
+best_model_3axis.pth:
+	the very first model
+
+best_model_noise.pth:
+	all the data are added with noise
+
+best_model_incomplete_gesture_weng.pth:
+	training data contains incomplete gesture,
+	passing with noise with uniform distribution,
+	trained by weng
+
+best_model_incomplete_gesture_ko.pth:
+	training data contains incomplete gesture,
+	passing with noise with uniform distribution,
+	trained by ko

@@ -4,22 +4,17 @@ from shortcut import read_json, shortcut
 from utils import get_last_i
 
 import serial
-from collections import deque
 import numpy as np
 import torch
-
-from collections import Counter
-import time
-
-### test
 import random
+from collections import deque
+from collections import Counter
 from statistics import mean
-###
 
 
 
 FILE = 'Setting.json'
-MODEL_PATH = 'best_model_gaunnoise.pth'
+MODEL_PATH = './model/best_model_gauss_noise.pth'
 
 # COM_PORT = '/dev/cu.usbserial-14140'
 COM_PORT = '/dev/ttyUSB0'
@@ -31,9 +26,6 @@ x_mean = 0
 y_mean = 0
 z_mean = 0.9
 sigma = 0.01
-# x = deque([random.uniform(x_mean-offset,x_mean+offset) for _ in range(150)], maxlen=150)
-# y = deque([random.uniform(y_mean-offset,y_mean+offset) for _ in range(150)], maxlen=150)
-# z = deque([random.uniform(z_mean-offset,z_mean+offset) for _ in range(150)], maxlen=150)
 
 x = deque([0] * 150, maxlen=150)
 y = deque([0] * 150, maxlen=150)
@@ -127,12 +119,6 @@ if __name__ == '__main__':
                     print(f'{time.time()-start_time:.4f}')
                     print('\n')
                     SKIP = True
-
-                    # test
-                    # x = deque([0] * 150, maxlen=150)
-                    # y = deque([0] * 150, maxlen=150)
-                    # z = deque([0] * 150, maxlen=150)
-                    #
                 
 
     except KeyboardInterrupt:
