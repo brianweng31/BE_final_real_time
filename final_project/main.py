@@ -11,51 +11,27 @@ from collections import deque
 from collections import Counter
 from statistics import mean
 
-
-
+##### PARAMETERS #####
 FILE = 'Setting.json'
 MODEL_PATH = './model/best_model_gauss_noise.pth'
 
 # COM_PORT = '/dev/cu.usbserial-14140'
 COM_PORT = '/dev/ttyUSB0'
 BAUD_RATES = 115200
-
-
-#######################
-x_mean = 0
-y_mean = 0
-z_mean = 0.9
-sigma = 0.01
+######################
 
 x = deque([0] * 150, maxlen=150)
 y = deque([0] * 150, maxlen=150)
 z = deque([0] * 150, maxlen=150)
 
-# data = np.load('../../test/BELab/data/GestureUp/chen_4.npz')
-# x = np.zeros(150)
-# y = np.zeros(150)
-# z = np.zeros(150)
-# x[68:68+80] = data['x'][27:27+80]
-# y[68:68+80] = data['y'][27:27+80]
-# z[68:68+80] = data['z'][20:20+80]
-# x = data['x']
-# y = data['y']
-# z = data['z']
-# rx = data['rx']
-# ry = data['ry']
-# rz = data['rz']
-# x = deque(x, maxlen=150)
-# y = deque(y, maxlen=150)
-# z = deque(z, maxlen=150)
-# rx = deque(rx, maxlen=150)
-# ry = deque(ry, maxlen=150)
-# rz = deque(rz, maxlen=150)
-
-######## experiment
-SKIP = True
+x_mean = 0
+y_mean = 0
+z_mean = 0
+sigma = 0.01
 buf_x = []
 buf_y = []
 buf_z = []
+SKIP = True
 
 if __name__ == '__main__':
 
@@ -110,7 +86,6 @@ if __name__ == '__main__':
 
                 # get result from model
                 result = get_result(model,x,y,z)
-                # print(result)
                 
                 if result != None:
                     print(result)
