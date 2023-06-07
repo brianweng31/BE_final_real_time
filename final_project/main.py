@@ -34,7 +34,6 @@ buf_z = []
 SKIP = True
 
 if __name__ == '__main__':
-
     # load json
     shortcut_dict = read_json(FILE)
 

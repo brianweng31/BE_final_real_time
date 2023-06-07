@@ -53,29 +53,3 @@ def process_signal(signal):
             power[i] = np.square(process_data[i]).sum()
     
     return process_data, power, max_i
-
-def preprocess_data(file_path):
-    X = []
-    y = []
-    num_of_bad_data = 0
-    label2digit = {"GestureDown":0, "GestureLeft":1, "GestureN":2,
-                   "GestureO": 3, "GestureRight":4, "GestureUp":5, 
-                   "GestureV": 6, "GestureZ": 7, "Noise":8
-                   }
-    for folder in os.listdir(file_path):
-        if os.path.isdir(f"{file_path}/{folder}"):
-            for file in os.listdir(f"{file_path}/{folder}"):
-                if os.path.isfile(f"{file_path}/{folder}/{file}"):
-                    if file.split('.')[1] == 'npz' and file.split('.')[0].split('_')[0]!='hung':
-                        signal = np.load(f"{file_path}/{folder}/{file}")
-                        is_good_data = True
-                        if is_good_data:
-                            signal = process_signal(signal)
-                            if not np.isnan(signal).any() :
-                                X.append(np.expand_dims(signal, 0).tolist())
-                                y.append(label2digit[folder])
-                            else:
-                                num_of_bad_data += 1
-                                print(f"{file_path}/{folder}/{file}")
-    print(f'Total {num_of_bad_data} bad data!')
-    return torch.tensor(X), torch.tensor(y)
